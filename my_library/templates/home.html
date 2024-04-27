@@ -1,0 +1,434 @@
+{% extends 'base.html' %}
+{% block body %}
+<title xmlns="http://www.w3.org/1999/html">{% block title %}my library{% endblock %}</title>
+<style>
+    .break-line {
+        word-wrap: break-word;
+        width: 170px;
+        /* Adjust the width as needed */
+    }
+
+    #loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    }
+
+    /* CSS styles for the loading animation */
+    .loader {
+        width: 50px;
+        height: 50px;
+        border: 8px solid #000;
+        border-top: 8px solid #f3f3f3;
+        border-radius: 50%;
+        animation: spin 1.5s linear infinite;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    @media screen and (max-width: 600px) {
+        .col-lg-2 {
+            flex: 0 0 100%;
+            /* Force each column to occupy the full width */
+            max-width: 50%;
+        }
+
+        .book_1 {
+            max-width: 40%;
+        }
+
+        .book_2 {
+            max-width: 58%;
+        }
+    }
+</style>
+<!-- FAVICON FILES -->
+<link href="pics/fav.png" rel="apple-touch-icon" sizes="144x144">
+<link href="pics/fav.png" rel="apple-touch-icon" sizes="114x114">
+<link href="pics/fav.png" rel="apple-touch-icon" sizes="72x72">
+<link href="pics/fav.png" rel="apple-touch-icon">
+<link href="pics/fav.png" rel="shortcut icon">
+
+<body>
+    <div id="loading-overlay">
+        <div class="loader"></div>
+    </div>
+    <br><br>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12 ">
+                <div>
+                    <form action="{% url 'search_app:search' %}" class="search-bar">
+                        <input aria-label="Search" class="" name="q" placeholder="Search {{ book_count }} books..."
+                            type="search">
+                        <button class="btn btn-light" type="submit">
+                            <i class="fa-solid fa-magnifying-glass fa-xl fa-beat"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div><br><br>
+    <style>
+        {
+            % for book in books %
+        }
+
+        .book-color- {
+                {
+                forloop.counter
+            }
+        }
+
+            {
+            background-color: {
+                % cycle '#FF3366' '#FF9900' '#FFCC00' '#66CC00' '#00CCCC' '#3399FF' '#9933FF' '#FF33CC' '#FF6666' '#FFCC99' '#99CC99' '#66CCCC' %
+            }
+
+            ;
+        }
+
+            {
+            % endfor %
+        }
+
+            {
+            % for category in links %
+        }
+
+        .category-color- {
+                {
+                forloop.counter
+            }
+        }
+
+            {
+            background-color: {
+                % cycle '#FF3366' '#FF9900' '#FFCC00' '#66CC00' '#00CCCC' '#3399FF' '#9933FF' '#FF33CC' '#FF6666' '#FFCC99' '#99CC99' '#66CCCC' %
+            }
+
+            ;
+        }
+
+            {
+            % endfor %
+        }
+    </style>
+<!--new ideas start-->
+
+
+<!--new ideas end-->
+    <div class="row style__101">
+        <h2>Latest Patrons</h2>
+    </div>
+    <div class="container">
+        <div class="row just__center">
+            {% for patron in home_patrons %}
+            <div class="col-md-4 p-1">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <div class="media">
+                            <img class=" img-thumbnail thumb-lg style__103"
+                                src="https://bootdey.com/img/Content/avatar/avatar6.png"
+                                alt="Generic placeholder image" />
+                            <div class="media-body"><br>
+                                <h4 class="mt-0 font-18 mb-1 text-uppercase"><b>{{patron.name}}
+                                        {% if user.is_authenticated and user.email == patron.gmail %} <span
+                                            class="style__104">(Main)</span> {% endif %} </b>
+                                </h4>
+                                <p class="text-muted font-17"><b>{{patron.card_no}}</b></p>
+                                <div class="style__105">
+                                    <a class="style__105 btn btn-primary"
+                                        href="{% url 'search_app:profile' patron.id %}">PROFILE</a>
+                                    <a class="btn btn-dark"
+                                        href="{% url 'search_app:issue_patron' patron.id %}">ISSUE</a>
+                                    <a class="btn btn-success"
+                                        href="{% url 'search_app:return_patron' patron.id %}">RETURN</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="row style__101">
+        <h2>Featured Books</h2>
+    </div>
+    <div class="container">
+        <div class="row just__center">
+            {% for book in book %}
+            <div class="style__106 col-md-3 card text-center book_2 book__details__1 just__center"
+                style="background: rgb(255, 136, 1);">
+                <div class="card-body">
+                    <h4 class="card-title" style="height: 30px; font-weight: bold;">{{ book.primary_number }}</h4>
+                    <h3 class="card-title text-uppercase text-white" style="font-size: 20px;"><i>{{ book.name }}</i>
+                    </h3>
+                    <h6 class="card-text text-uppercase text-left text-white">{{ book.category.name }} | {{ book.lang }}
+                    </h6>
+                    <h6 class="card-text text-uppercase text-left text-white">PRICE: {{ book.price }}</h6>
+                </div>
+                <div class="d-flex justify-content-center" style="margin-bottom: 20px;">
+                    <a class="btn btn-warning" href="{% url 'mylibrary:detail' book.id %}">
+                        Detail <i class="fa-sharp fa-solid fa-angles-right"></i>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <div class="row style__101">
+        <h2>NewsPappers</h2>
+    </div>
+    <div class="container">
+        <div class="row">
+            {% for news in newspaper %}
+            <div class="col-md-3 p-1 just__center">
+                <div class="cards">
+                    <div class="newspaper-card align-items-center">
+                        <a href="{{ news.pdf.url }}" target="_blank">
+                            <img class="style__103"
+                             src="https://static.vecteezy.com/system/resources/previews/012/665/107/original/simple-cartoon-illustration-of-an-open-newspaper-office-concept-vector.jpg"
+                                alt="{{ news.name }}"><br><br>
+                            <h6 class="text-uppercase"><b>{{ news.name }}<br> [ 0{{ forloop.counter }} ]</b></h6>
+                        </a>
+                        <div class="text-center">
+                            <a href="{{ news.pdf.url }}" class="btn btn-info text-white"><b>READ</b></a>
+                            <a href="{{ news.pdf.url }}" class="btn btn-success text-white" download><b>HERE <i
+                                        class="fas fa-download"></i> </b></a><br><br>
+                            <a href="{% url 'search_app:delete_newspaper' news.id %}"
+                                class="btn btn-secondary text-white"><b>DELETE </b></a>
+                            <a href="{% url 'search_app:update_news' news.id %}"
+                                class="btn btn-warning text-white"><b>UPDATE</b></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="row style__101">
+        <h2>Categories</h2>
+    </div>
+    <div class="container">
+        <div class="row">
+            {% for category in links %}
+            <a href="{{ category.get_url }}" style="color: #0e3058;">
+                <div class="col-lg-2 p-2">
+                    <a href="{{ category.get_url }}" style="color: #0e3058;
+                text-decoration: none; font-size: 30px;" class="text-dark">
+                        <div class="card" style="border-bottom: 1px solid black; background-color: #b6ff57b3;
+                     background-size: 100% 100%; height: 200px">
+                            <div class="card-body category__title">
+                                <p class="card-title text-center text-uppercase">{{ category.name }}</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="row style__101">
+        <h2>History</h2>
+    </div>
+    <div class="container" style="top: 50px;">
+        <div class="row ">
+            <div class="col-xl-6 col-lg-6">
+                <a href="{% url 'search_app:history' %}?type=fines" style="text-decoration: none;">
+                    <div class="card l-bg-green text-white">
+                        <div class="card-statistic-3 p-5">
+                            <div class="card-icon card-icon-large"><i class="fas fa-rupee"></i></div>
+                            <div class="mb-4">
+                                <h5 class="card-title mb-0 text-center"><b>FINES</b></h5>
+                            </div>
+                            <div class="row align-items-center mb-2 d-flex">
+                                <div class="col-8">
+                                    <h2 class="d-flex align-items-center mb-0">
+                                        <i class="fas fa-rupee"></i> {{ total_patron_fine }}
+                                    </h2>
+                                </div>
+                                <div class="col-4 text-right">
+                                    <span>{{percentage_fine}}% <i class="fa fa-arrow-up"></i></span>
+                                </div>
+                            </div>
+                            <div class="progress mt-1" data-height="8" style="height: 8px;">
+                                <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="25"
+                                    class="progress-bar l-bg-cyan" data-width="25%" role="progressbar"
+                                    style="width: {{percentage_fine}}%;">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-xl-6 col-lg-6">
+                <a href="{% url 'search_app:history' %}?type=patrons" style="text-decoration: none;">
+                    <div class="card bg-primary text-white">
+                        <div class="card-statistic-3 p-5">
+                            <div class="card-icon card-icon-large"><i class="fas fa-users"></i></div>
+                            <div class="mb-4">
+                                <h5 class="card-title mb-0"><b>PATRONS</b></h5>
+                            </div>
+                            <div class="row align-items-center mb-2 d-flex">
+                                <div class="col-8">
+                                    <h2 class="d-flex align-items-center mb-0">
+                                        {{ patron_count }}K
+                                    </h2>
+                                </div>
+                                <div class="col-4 text-right">
+                                    <span>{{ patron_percentage }}% <i class="fa fa-arrow-up"></i></span>
+                                </div>
+                            </div>
+                            <div class="progress mt-1 " data-height="8" style="height: 8px;">
+                                <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="30"
+                                    class="progress-bar l-bg-green" data-width="30%" role="progressbar"
+                                    style="width: {{ patron_percentage }}%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-xl-6 col-lg-6 text-center">
+                <a href="{% url 'search_app:superuser' %}" style="text-decoration: none;">
+                    <div class="card bg-danger text-white">
+                        <div class="card-statistic-3 p-5">
+                            <div class="card-icon card-icon-large"><i class="fas fa-user"></i></div>
+                            <div class="mb-4">
+                                <h5 class="card-title mb-0 text-center"><b>SUPER ADMIN</b></h5>
+                            </div>
+                            <div class="col-md-12 text-center">
+                                <h5 class="text-uppercase text-center">
+                                    {% if user.is_authenticated %}
+                                    {{ user.username }}(main)
+                                    {% endif %}
+                                </h5>
+                            </div>
+
+                            <div class="col-12 text-center">
+                                {% for patron in patrons %}
+                                <h6>
+                                    <b>
+                                        {% if user.is_authenticated and user.email == patron.gmail %}
+                                        {{ patron.card_no }}
+                                        {% endif %}
+                                    </b>
+                                </h6>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-xl-6 col-lg-6">
+                <a href="{% url 'search_app:history' %}?type=issued_books" style="text-decoration: none;">
+                    <div class="card l-bg-orange">
+                        <div class="card-statistic-3 p-5">
+                            <div class="card-icon card-icon-large"><i class="fas fa-book"></i></div>
+                            <div class="mb-4">
+                                <h5 class="card-title mb-0 text-center"><b>ISSUED BOOKS</b></h5>
+                            </div>
+                            <div class="row align-items-center mb-2 d-flex">
+                                <div class="col-8">
+                                    <h2 class="d-flex align-items-center mb-0">
+                                        {{t_issued_books_count}}K
+                                    </h2>
+                                </div>
+                                <div class="col-4 text-right">
+                                    <span>{{t_issued_books_count}}% <i class="fa fa-arrow-up"></i></span>
+                                </div>
+                            </div>
+                            <div class="progress mt-1" data-height="8" style="height: 8px;">
+                                <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="25"
+                                    class="progress-bar l-bg-orange" data-width="50%" role="progressbar"
+                                    style="width: {{t_issued_books_count}}%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card font__fontastique" style="background: white">
+                    <h2 class=" text-center" style="padding:15px"><b>MYLIBRARY</b></h2>
+                    <div class="card-body">
+                        <p>
+                            Hi How Are You ?<br><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The word library is derived from a French word
+                            "Librairie";
+                            Latin "liber" = book. The library plays an important role in our academic and social lives.
+                            Library is an organized collection of information resources made accessible to a defined
+                            community for reference or borrowing and this collection of information may be in the form
+                            of
+                            books, newspapers, CD’s, journals and research papers etc. library provides us physical or
+                            digital access to material, and may be a physical building or room, or a virtual space, or
+                            both
+                            containing collection of informative material.
+                            <br><br>
+                        <div class="text-center">
+                            <b class="text-center">Now Available Categories</b>
+                            <hr style="background: #000">
+                            {% for category in links %}
+                            <i class="text-uppercase">{{ category.name }},</i>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mx-auto">
+        {% if paginator.num_pages > 1 %}
+        <div class="text-center">
+            <br>
+            {% if book.has_previous %}
+            <a class="btn btn-primary btn-sm" href="?page={{ book.previous_page_number }}">Previous</a>
+            {% endif %}
+
+            {% for pg in book.paginator.page_range %}
+            <a class="btn btn-success btn-sm {% if book.number == pg %} active {% endif %}" href="?page={{ pg }}">{{ pg }}</a>
+            {% endfor %}
+
+            {% if book.has_next %}
+            <a class="btn btn-primary bt-sm" href="?page={{ book.next_page_number }}">Next</a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</body>
+<script>
+    // JavaScript function to hide the loading screen overlay
+    function hideLoadingScreen() {
+        var loadingOverlay = document.getElementById('loading-overlay');
+        loadingOverlay.style.display = 'none';
+    }
+
+    // Set a 30-second timeout to hide the loading screen even if the page hasn't finished loading
+    setTimeout(hideLoadingScreen, 10);
+
+</script>
+{% endblock %}

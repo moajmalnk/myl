@@ -1,0 +1,67 @@
+@import url('https://fonts.cdnfonts.com/css/fontastique');
+
+.category__title{
+	justify-content: center; 
+	display: flex; 
+	align-items: center;
+}
+
+.category__title p{
+    font-size: 24px;
+    font-weight: revert-layer;
+    color: black;
+}
+
+book__details__1{
+    background: rgb(255 173 80);
+    max-width: 20%;
+    margin-left: 12px;
+}
+
+.row.style__101{
+    justify-content: center;
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.row.style__101 h2{
+    font-size: 40px;
+    font-family: 'Fontastique', sans-serif !important;
+}
+
+/* start common items */
+
+.font__fontastique{
+    font-family: 'Fontastique', sans-serif !important;
+}
+.just__center{
+    display: flex !important;
+    justify-content: center !important;
+}
+
+/* end common items */
+
+.style__102:hover{
+    text-decoration: none;
+    color: aliceblue;
+}
+
+.style__102.search__home{
+    color: aliceblue;
+}
+
+.style__103{
+    border-radius: 20% !important;
+    width: 100px;
+}
+
+.style__104{
+    color: red;
+}
+.style__105{
+    margin: 5px;
+}
+.style__106{
+    margin: 10px;
+}
+
